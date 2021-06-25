@@ -3,6 +3,8 @@ import ChatBot from 'react-simple-chatbot';
 import PropTypes from 'prop-types';
 import { ThemeProvider } from 'styled-components';
 import Cadastro from './cadastro';
+import Login from './login';
+import Chamado from './chamado';
 
 const config = {
   width: "400px",
@@ -31,10 +33,10 @@ class BOT extends Component {
     return (
       <ThemeProvider theme={theme}>
         <ChatBot
-          
+
           steps={[
             {
-              id: '0',
+              id: '1',
               message: 'Olá! Sou o assistente virtual da BRQ Digital Solutions.',
               trigger: '2',
             },
@@ -45,148 +47,156 @@ class BOT extends Component {
             },
             {
               id: '3',
-              message: 'Primeiramente, peço que me diga sobre qual desses assuntos você deseja conversar: ',
-              trigger: '4',
+              message: 'Mas Antes, preciso que você me informe se tem Cadastro!',
+              trigger: '4'
             },
             {
               id: '4',
               options: [
-                { value: '1', label: 'Opção 1', trigger: '5' },
-                { value: '2', label: 'Opção 2', trigger: '5' },
-                { value: '3', label: 'Opção 3', trigger: '5' },
-                { value: '4', label: 'Opção 4', trigger: '5' },
-                { value: '5', label: 'Opção 5', trigger: '5' },
-                { value: '6', label: 'Opção 6', trigger: '5' },
+                { value: 'yes', label: 'Sim', trigger: '6' },
+                { value: 'no', label: 'Não', trigger: '8' },
               ],
-            },
-            {
-              id: '5',
-              message: 'Escolha uma das opções:',
-              trigger: '6'
             },
             {
               id: '6',
-              options: [
-                { value: '7', label: 'Opção 1', trigger: '7' },
-                { value: '8', label: 'Opção 2', trigger: '7' },
-                { value: '9', label: 'Opção 3', trigger: '7' },
-                { value: '10', label: 'Opção 4', trigger: '7' },
-                { value: '11', label: 'Opção 5', trigger: '7' },
-                { value: '12', label: 'Opção 6', trigger: '7' },
-              ],
+              message: 'Maravilha! Primeiramente, peço que me diga seu email.',
+              trigger: 'emailLogin'
+            },
+            {
+              id: 'emailLogin',
+              user: true,
+              trigger: '7',
             },
             {
               id: '7',
-              message: 'Escolha uma das opções:',
-              trigger: '8'
+              message: 'Maravilha! Segundamente, peço que me diga sua senha.',
+              trigger: 'senhaLogin'
+            },
+            {
+              id: 'senhaLogin',
+              user: true,
+              trigger: 'logar',
+            },
+            {
+              id: 'logar',
+              component: <Login />,
+              asMessage: true,
+              trigger: 'final',
             },
             {
               id: '8',
-              options: [
-                { value: '13', label: 'Opção 1', trigger: '9' },
-                { value: '14', label: 'Opção 2', trigger: '9' },
-                { value: '15', label: 'Opção 3', trigger: '9' },
-                { value: '16', label: 'Opção 4', trigger: '9' },
-                { value: '17', label: 'Opção 5', trigger: '9' },
-                { value: '18', label: 'Opção 6', trigger: '9' },
-              ],
+              message: 'Vamos fazer seu Cadastro? Primeiramente, peço que me diga seu nome!',
+              trigger: 'nome',
+            },
+            {
+              id: 'nome',
+              user: true,
+              trigger: '9',
             },
             {
               id: '9',
-              message: 'Captei seu problema, e já vou te enviar para o atendente!',
-              trigger: '10'
+              message: 'Agora me informe seu cpf!',
+              trigger: 'cpf',
+            },
+            {
+              id: 'cpf',
+              user: true,
+              trigger: '10',
             },
             {
               id: '10',
-              message: 'Mas Antes, preciso que você me informe se tem Cadastro!',
-              trigger: '11'
-            },
-            {
-              id: '11',
-              options: [
-                { value: 'yes', label: 'Sim', trigger: '12' },
-                { value: 'no', label: 'Não', trigger: '13' },
-              ],
-            },
-            {
-              id: '12',
-              message: 'Maravilha! Me diga seu CPF, para eu poder te enviar para o atendente.',
-              trigger: '14'
-            },
-            {
-              id: '14',
-              user: true,
-              trigger: '16',
-            },
-            {
-              id: '16',
-              message: 'Estou lhe enviando para um atendente, que vai auxilia-lô em seu problema!',
-              end: true,
-            },
-            {
-              id: '13',
-              message: 'Vamos fazer seu Cadastro? Primeiramente, peço que me diga seu email!',
+              message: 'Agora, preciso que você me informe seu email!',
               trigger: 'email',
             },
             {
               id: 'email',
               user: true,
-              trigger: '15',
+              trigger: '11',
             },
             {
-              id: '15',
+              id: '11',
               message: 'Agora, preciso que você me informe sua senha!',
               trigger: 'senha',
             },
             {
               id: 'senha',
               user: true,
-              trigger: '17',
+              trigger: 'cadastrar',
             },
             {
-              id: '17',
-              message: "Gostaria de alterar algum dado?",
-              trigger: 'alterar',
-            },
-            {
-              id: 'alterar',
-              options: [
-                { value: 'yes', label: 'Sim', trigger: 'sim' },
-                { value: 'no', label: 'Não', trigger: 'end' },
-              ],
-            },
-            {
-              id: 'sim',
-              message: 'O que você gostaria de alterar?',
-              trigger: 'mudar',
-            },
-            {
-              id: 'mudar',
-              options: [
-                { value: 'nome', label: 'Nome', trigger: 'alterar-nome' },
-                { value: 'cpf', label: 'Cpf', trigger: 'alterar-cpf' },
-              ],
-            },
-            {
-              id: 'alterar-nome',
-              update: 'nome',
-              trigger: 'dados-alterados'
-            },
-            {
-              id: 'alterar-cpf',
-              update: 'cpf',
-              trigger: 'dados-alterados'
-            },
-            {
-              id: 'dados-alterados',
-              message: 'seus dados foram alterados com sucesso!',
-              trigger: 'end'
-            },
-            {
-              id: 'end',
+              id: 'cadastrar',
               component: <Cadastro />,
               asMessage: true,
-              end: true
+              trigger: 'pos-cadastrar',
+            },
+            {
+              id: '12',
+              message: 'Primeiramente, peço que me diga sobre qual desses assuntos você deseja conversar: ',
+              trigger: '13',
+            },
+            {
+              id: '13',
+              options: [
+                { value: '1', label: 'Opção 1', trigger: '14' },
+                { value: '2', label: 'Opção 2', trigger: '14' },
+                { value: '3', label: 'Opção 3', trigger: '14' },
+                { value: '4', label: 'Opção 4', trigger: '14' },
+                { value: '5', label: 'Opção 5', trigger: '14' },
+                { value: '6', label: 'Opção 6', trigger: '14' },
+              ],
+            },
+            {
+              id: '14',
+              message: 'Escolha uma das opções:',
+              trigger: '15'
+            },
+            {
+              id: '15',
+              options: [
+                { value: '7', label: 'Opção 1', trigger: '16' },
+                { value: '8', label: 'Opção 2', trigger: '16' },
+                { value: '9', label: 'Opção 3', trigger: '16' },
+                { value: '10', label: 'Opção 4', trigger: '16' },
+                { value: '11', label: 'Opção 5', trigger: '16' },
+                { value: '12', label: 'Opção 6', trigger: '16' },
+              ],
+            },
+            {
+              id: '16',
+              message: 'Escolha uma das opções:',
+              trigger: 'problemObject'
+            },
+            {
+              id: 'problemObject',
+              options: [
+                { value: '13', label: 'Opção 1', trigger: 'chamados' },
+                { value: '14', label: 'Opção 2', trigger: 'chamados' },
+                { value: '15', label: 'Opção 3', trigger: 'chamados' },
+                { value: '16', label: 'Opção 4', trigger: 'chamados' },
+                { value: '17', label: 'Opção 5', trigger: 'chamados' },
+                { value: '18', label: 'Opção 6', trigger: 'chamados' },
+              ],
+            },
+            {
+              id: 'chamados',
+              component: <Chamado />,
+              asMessage: true,
+              trigger: '20',
+            },
+            {
+              id: 'pos-cadastrar',
+              message: 'Você foi cadastrado em nossa plataforma, viu como foi rápido. :)',
+              trigger: '12',
+            },
+            {
+              id: '20',
+              message: 'Captei seu problema, e já vou te enviar para o atendente!',
+              trigger: 'final'
+            },
+            {
+              id: 'final',
+              message: 'Estou lhe enviando para um atendente, que vai auxilia-lô em seu problema!',
+              end: true,
             },
           ]}
           {...config}

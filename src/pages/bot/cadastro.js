@@ -1,5 +1,5 @@
-import React, { Component} from 'react';
-import { singUpCliente } from '../../actions/authActions';
+import React, { Component } from 'react';
+import { signUpCliente } from '../../actions/postActions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
@@ -8,39 +8,42 @@ class Cadastro extends Component {
   constructor(props) {
     super(props);
     const { steps } = this.props;
-    const { email, senha } = steps;
+    const { email, senha, nome, cpf } = steps;
 
-    this.state =  { email, senha }; 
+    this.state = { email, senha, nome, cpf };
   }
 
-  
+
   componentDidMount() {
-    const { singUpCliente } = this.props.singUpCliente
+    const { signUpCliente } = this.props.signUpCliente
     const user = {
-      email:this.state.email.value,
-      senha:this.state.senha.value,
+      email: this.state.email.value,
+      senha: this.state.senha.value,
+      nome: this.state.nome.value,
+      cpf: this.state.cpf.value,
     };
 
-    singUpCliente(user);
-}
+    signUpCliente(user);
+  }
   render() {
     return (
       <div>Informações salvas com sucesso! :)</div>
-      );
-    }
-  };  
-
-  function mapStateToProps(state) {
-    return {
-      user: state.user
-    };
+    );
   }
+};
 
-  function mapDispatchToProps(dispatch) {
-    return {
-      singUpCliente: bindActionCreators({singUpCliente}, dispatch)
-    }
+
+function mapStateToProps(state) {
+  return {
+    user: state.user
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    signUpCliente: bindActionCreators({ signUpCliente }, dispatch)
   }
-  
+}
 
-  export default connect(mapStateToProps, mapDispatchToProps)(Cadastro);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cadastro);

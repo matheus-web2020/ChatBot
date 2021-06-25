@@ -4,6 +4,10 @@ export const authConstants ={
 
 }
 
+export const problemConstants ={
+    USER_PROBLEM : 'USER_PROBLEM'
+}
+
 export const userConstants = {
     GET_REALTIME_USERS: 'GET_REALTIME_USERS',
     GET_REALTIME_MESSAGES: 'GET_REALTIME_MESSAGES'

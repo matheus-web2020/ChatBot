@@ -14,58 +14,49 @@ const firestore = () => {
     )
 }
 
-export const singUpCliente = (user) => {
 
-    return async (dispatch) => {
+export const signInCliente = (user) => {
 
-        const db = firestore();
+    return async dispatch => {
 
-        dispatch({ type: `${authConstants.USER_LOGIN}_REQUEST` });  
-
+        dispatch({ type: `${authConstants.USER_LOGIN}_REQUEST` });
         auth()
-            .createUserWithEmailAndPassword(user.email, user.senha)
-            .then(data => {
+            .signInWithEmailAndPassword(user.emailLogin, user.senhaLogin)
+            .then((data) => {
                 console.log(data)
-                const currentUser = auth().currentUser;
-                const infos = `${user.nome} ${user.cpf}`
-                currentUser.updateProfile({
-                    displayName: infos
-                })
-                     .then(() => {
-                        db.collection('users')
-                            .doc('cliente').doc(data.user.uid)
-                            .set({
-                                nome: user.nome,
-                                cpf: user.cpf,
-                                uid: data.user.uid,
-                            })
-                            .then(() => {
-                                const loggedInUser = {
-                                    uid: data.user.uid,
-                                    nome: user.nome,
-                                    cpf: user.cpf,
-                                    email: user.email
-                                }
-                                localStorage.setItem('user', JSON.stringify(loggedInUser));
-                                console.log('Usuario Logado');
-                                dispatch({
-                                    type: `${authConstants.USER_LOGIN}_SUCCESS`,
-                                    payload: { user: loggedInUser }
-                                })
-                            })
-                            .catch(error => {
-                                console.log(error);
-                                dispatch({
-                                    type: `${authConstants.USER_LOGIN}_FAILURE`,
-                                    payload: { error }
-                                });
-                            });
-                     });
+
+                const db = firestore();
+
+                db.collection('users')
+                    .doc(data.user.uid)
+                    .get()
+                    .then((doc) => {
+                        const loggedInUser = {
+                            // nome: doc.data().nome,
+                            // cpf: doc.data().cpf,
+                            email: user.emailLogin
+                        }
+
+                        localStorage.setItem('user', JSON.stringify(loggedInUser));
+
+                        dispatch({
+                            type: `${authConstants.USER_LOGIN}_SUCCESS`,
+                            payload: { user: loggedInUser }
+                        })
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
+
+
             })
             .catch(error => {
                 console.log(error);
+                dispatch({
+                    type: `${authConstants.USER_LOGIN}_FAILURE`,
+                    payload: { error }
+                })
             })
+
     }
-
 }
-
