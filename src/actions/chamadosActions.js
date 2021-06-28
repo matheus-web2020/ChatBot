@@ -31,10 +31,13 @@ export const Chamados = (problemObject) => {
                     ...problemObject,
                     user_uid_1: currentUser.uid
                 })
+                
                 .then(() => {
                     dispatch({
                         type: `${problemConstants.USER_PROBLEM}_SUCCESS`,
                         payload: { user: problemObject }
+
+
                     })
                 })
                 .catch(error => {
