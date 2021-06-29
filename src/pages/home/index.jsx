@@ -2,19 +2,21 @@ import React, { Component } from 'react';
 import { Jumbotron, Container, Col } from 'react-bootstrap';
 // import Menu from './../../components/menu';
 import { Button } from 'bootstrap';
-import Banner from '../../img/BannerDeVerdade.jpg';
 import './../home/home.css';
 
 //imagens
-import Imagem from './../../img/imagem.jpg';
-import Samanta from '../../img/Samanta.jpg';
-import Makoto from '../../img/Makoto.jpg';
-import Milena from '../../img/Milena.jpg';
-import Fusca from '../../img/Fusca.jpg';
-import Gustavo from '../../img/gustavo.jpg';
-import Henrique from '../../img/Henrique.jpg';
-import Eduardo from '../../img/eduardo.jpg';
-import banner2 from '../../img/Banner2.jpg';
+import Banner1 from '../../img/Banner1.png';
+import Banner2 from '../../img/Banner2.png';
+import Bradesco from '../../img/bradesco.png';
+import Itau from '../../img/itau.png';
+import Trabalho from '../../img/Trabalho.png';
+import Eduardo from '../../img/Eduardo.png';
+import Fusca from '../../img/Fusca.png';
+import Gustavo from '../../img/Gustavo.png';
+import Henrique from '../../img/Henrique.png';
+import Makoto from '../../img/Makoto.png';
+import Milena from '../../img/Milena.png';
+import Samanta from '../../img/Samanta.png';
 
 
 import Libras from '././../../components/acessibilidade';
@@ -57,7 +59,7 @@ class home extends Component {
           <div id="home">
           <div id="Home">
             {/* <Menu /> */}
-            <img style={{ width: '100%' }} src={Banner} />
+             <img style={{ width: '100%' }} src={Banner1} /> 
             <div className="textoHome">
 
             </div>
@@ -67,7 +69,7 @@ class home extends Component {
 
         <Container id="Quemsomos">
           <div className='quemSomos'>
-            <img className="coletividade" src={Imagem} />
+             <img className="coletividade" src={Trabalho} />
             <div className="textinho" >
               <h1>Quem somos?</h1>
               <p>
@@ -81,7 +83,7 @@ class home extends Component {
 <ChatBot></ChatBot>
         <Container>
           <div id="Servicos" >
-            <img style={{ width: '100%' }} src={banner2} />
+            <img style={{ width: '100%' }} src={Banner2} />
           </div>
         </Container>
 

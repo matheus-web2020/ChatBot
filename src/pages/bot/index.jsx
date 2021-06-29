@@ -12,20 +12,72 @@ const config = {
   floating: true,
   placeholder: 'Digite sua Mensagem...',
   userDelay: 0,
+  recognitionEnable : true,
+  recognitionLang : 'pt',
+  headerTitle : 'Assistente Virtual BRQ',
+  
 
 };
 
 const theme = {
   background: '#f5f8fb',
-  fontFamily: 'Helvetica Neue',
-  headerBgColor: '#EF6C00',
+  fontFamily: 'Arial',
+  headerBgColor: '#5A90BF',
   headerFontColor: '#fff',
   headerFontSize: '15px',
-  botBubbleColor: '#EF6C00',
+  botBubbleColor: '#77C7D9',
   botFontColor: '#fff',
   userBubbleColor: '#fff',
-  userFontColor: '#4a4a4a',
+  userFontColor: '#000',
 };
+class Mostrar extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      nome: '',
+      cpf: '',
+      email: '',
+      senha: '',
+    };
+  }
+
+  componentWillMount() {
+    const { steps } = this.props;
+    const { nome, cpf, email, senha } = steps;
+
+    this.setState({ nome, cpf, email, senha });
+  }
+
+  render() {
+    const { nome, cpf, email, senha } = this.state;
+    return (
+      <div style={{ width: '100%' }}>
+        <h3>Sumário:</h3>
+        <table>
+          <tbody>
+            <tr>
+              <td>Nome:</td>
+              <td>{nome.value}</td>
+            </tr>
+            <tr>
+              <td>CPF:</td>
+              <td>{cpf.value}</td>
+            </tr>
+            <tr>
+              <td>Email:</td>
+              <td>{email.value}</td>
+            </tr>
+            <tr>
+              <td>Senha:</td>
+              <td>{senha.value}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+}
 
 class BOT extends Component {
 
@@ -91,16 +143,36 @@ class BOT extends Component {
             {
               id: 'nome',
               user: true,
+              validator: (value) => {
+                if (/^[A-Za-z][A-Za-z\'\-]+([\ A-Za-z][A-Za-z\'\-]+)*/.test(value))
+                  {
+                    return true;
+                  }
+                else
+                  {
+                    return'Por Favor informe um nome válido.';
+                  }
+                },
               trigger: '9',
             },
             {
               id: '9',
-              message: 'Agora me informe seu cpf!',
+              message: 'Agora me informe seu cpf, seguindo o exemplo: 000.000.000-00',
               trigger: 'cpf',
             },
             {
               id: 'cpf',
               user: true,
+              validator: (value) =>{
+                if (/^[0-9]{3}[.][0-9]{3}[.][0-9]{3}[-][0-9]{2}/.test(value))
+                {
+                  return true;
+                }
+                else
+                {
+                  return'Informe um cpf válido.';
+                }
+              },
               trigger: '10',
             },
             {
@@ -111,6 +183,16 @@ class BOT extends Component {
             {
               id: 'email',
               user: true,
+              validator: (value) => {
+                if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value))
+                  {
+                    return true;
+                  }
+                else
+                  {
+                    return'Por Favor informe um email válido.';
+                  }
+             },
               trigger: '11',
             },
             {
@@ -121,7 +203,96 @@ class BOT extends Component {
             {
               id: 'senha',
               user: true,
-              trigger: 'cadastrar',
+              trigger: 'dados',
+            },
+            {
+              id: 'dados',
+              message: 'Esses são seus dados:',
+              trigger: 'mostrar',
+            },
+            {
+              id: 'mostrar',
+              component: <Mostrar />,
+              asMessage: true,
+              trigger: 'confirmarDados',
+            },
+            {
+              id: 'confirmarDados',
+              message: 'Gostaria de alterar seus dados?',
+              trigger: 'alterarOpcao',
+            },
+            {
+              id: 'alterarOpcao',
+              options: [
+                { value: 'sim', label: 'Sim', trigger: 'alterarDados' },
+                { value: 'nao', label: 'Não', trigger: 'cadastrar' },
+              ],
+            },
+            {
+              id: 'alterarDados',
+              message: 'O que você gostaria de alterar?',
+              trigger: 'alterar',
+            },
+            {
+              id: 'alterar',
+              options: [
+                { value: 'mudarNome', label: 'Nome', trigger: 'adulterarNome' },
+                { value: 'mudarCpf', label: 'cpf', trigger: 'adulterarCpf' },
+                { value: 'mudarEmail', label: 'Email', trigger: 'adulterarEmail' },
+                { value: 'mudarSenha', label: 'Senha', trigger: 'adulterarSenha' },
+              ],
+            },
+            {
+              id: 'adulterarNome',
+              message : 'Perfeito, pode fazer a alteração de seu Nome.',
+              trigger : 'alterarNome'
+            },
+            {
+              id: 'adulterarCpf',
+              message : 'Perfeito, pode fazer a alteração de seu CPF.',
+              trigger : 'alterarCpf'
+            },
+            {
+              id: 'adulterarEmail',
+              message : 'Perfeito, pode fazer a alteração de seu Email.',
+              trigger : 'alterarEmail'
+            },
+            {
+              id: 'adulterarSenha',
+              message : 'Perfeito, pode fazer a alteração de sua senha!',
+              trigger : 'alterarSenha'
+            },
+            {
+              id: 'alterarNome',
+              update : 'nome',
+              trigger: 'confirmarAlterado',
+            },
+            {
+              id: 'alterarCpf',
+              update : 'cpf',
+              trigger: 'confirmarAlterado',
+            },
+            {
+              id: 'alterarEmail',
+              update : 'email',
+              trigger: 'confirmarAlterado',
+            },
+            {
+              id: 'alterarSenha',
+              update : 'senha',
+              trigger: 'confirmarAlterado',
+            },
+            {
+              id: 'confirmarAlterado',
+              message : 'Gostaria de alterar mais alguma coisa?',
+              trigger : 'alterado'
+            },
+            {
+              id: 'alterado',
+              options: [
+                { value: 'sim', label: 'Sim', trigger: 'alterarDados' },
+                { value: 'nao', label: 'Não', trigger: 'mostrar' },
+              ],
             },
             {
               id: 'cadastrar',

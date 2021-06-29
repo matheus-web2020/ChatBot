@@ -5,7 +5,13 @@ import ReactDom from 'react-dom';
 import { Provider } from 'react-redux';
 import reportWebVitals from './reportWebVitals';
 import Home from '../src/pages/home';
-import Chat from '../src/screens/Chat';
+import Menu from '../src/components/menu';
+import Chat from '../src/screens/atendimento1/Chat';
+import Chat2 from '../src/screens/atendimento2/Chat2';
+import Chat3 from '../src/screens/atendimento3/Chat3';
+import Chat4 from '../src/screens/atendimento4/Chat4';
+import Chat5 from '../src/screens/atendimento5/Chat5';
+import Chat6 from '../src/screens/atendimento6/Chat6';
 
 import "firebase/auth";
 import "firebase/firestore";
@@ -29,7 +35,7 @@ window.store = store;
 ReactDom.render(
   <Provider store={store}>
     <React.StrictMode>
-      <Home />
+      <Chat2 />
     </React.StrictMode>
   </Provider>,
   document.getElementById('root')
