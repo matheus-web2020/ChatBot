@@ -1,10 +1,10 @@
 import React from 'react';
-import '../../components/menu/index.css'
+import './index.css'
 import { Navbar, Nav, } from 'react-bootstrap';
-import Ham from './../hamburguer';
+import Ham from '../hamburguer';
 
 
-const menu = () => {
+const Menu = () => {
 
   return (
 
@@ -39,4 +39,4 @@ const menu = () => {
 
 }
 
-export default menu;
+export default Menu;

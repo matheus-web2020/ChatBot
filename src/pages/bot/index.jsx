@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { ThemeProvider } from 'styled-components';
 import Cadastro from './cadastro';
 import Login from './login';
-import Chamado from './chamado';
+import {Link} from 'react-router-dom';
 
 const config = {
   width: "400px",
@@ -12,10 +12,11 @@ const config = {
   floating: true,
   placeholder: 'Digite sua Mensagem...',
   userDelay: 0,
-  recognitionEnable : true,
-  recognitionLang : 'pt',
-  headerTitle : 'Assistente Virtual BRQ',
-  
+  recognitionEnable: true,
+  recognitionLang: 'pt',
+  headerTitle: 'Assistente Virtual BRQ',
+  // botAvatar : <img src="https://www.hexacta.com.br/wp-content/uploads/2017/03/logo-brq.png" />
+
 
 };
 
@@ -50,7 +51,7 @@ class Mostrar extends Component {
   }
 
   render() {
-    const { nome, cpf, email, senha } = this.state;
+    const { nome, cpf, email} = this.state;
     return (
       <div style={{ width: '100%' }}>
         <h3>Sumário:</h3>
@@ -67,10 +68,6 @@ class Mostrar extends Component {
             <tr>
               <td>Email:</td>
               <td>{email.value}</td>
-            </tr>
-            <tr>
-              <td>Senha:</td>
-              <td>{senha.value}</td>
             </tr>
           </tbody>
         </table>
@@ -133,66 +130,62 @@ class BOT extends Component {
               id: 'logar',
               component: <Login />,
               asMessage: true,
-              trigger: 'final',
+              trigger: '12',
             },
             {
               id: '8',
-              message: 'Vamos fazer seu Cadastro? Primeiramente, peço que me diga seu nome!',
+              message: 'Vamos fazer seu Cadastro? Primeiramente, peço que me diga seu nome.',
               trigger: 'nome',
             },
             {
               id: 'nome',
               user: true,
               validator: (value) => {
-                if (/^[A-Za-z][A-Za-z\'\-]+([\ A-Za-z][A-Za-z\'\-]+)*/.test(value))
-                  {
-                    return true;
-                  }
-                else
-                  {
-                    return'Por Favor informe um nome válido.';
-                  }
-                },
+                if (/^[A-Za-z][A-Za-z\'\-]+([\ A-Za-z][A-Za-z\'\-]+)*/.test(value)) {
+                  return true;
+                }
+                else {
+                  return 'Por Favor informe um nome válido.';
+                }
+              },
               trigger: '9',
             },
             {
               id: '9',
-              message: 'Agora me informe seu cpf, seguindo o exemplo: 000.000.000-00',
+              message: 'Digite o seu CPF:',
               trigger: 'cpf',
             },
             {
               id: 'cpf',
               user: true,
-              validator: (value) =>{
-                if (/^[0-9]{3}[.][0-9]{3}[.][0-9]{3}[-][0-9]{2}/.test(value))
-                {
-                  return true;
+              validator: (value) => {
+                if (/^[0-9]{11}/.test(value) 
+                // && (this.state.cpf.length == 11)
+                ){  
+                    return true;
                 }
-                else
-                {
-                  return'Informe um cpf válido.';
+                else {
+                  return 'Informe um CPF válido.';
                 }
               },
               trigger: '10',
             },
             {
               id: '10',
-              message: 'Agora, preciso que você me informe seu email!',
+              message: 'Informe seu E-mail.',
               trigger: 'email',
             },
             {
               id: 'email',
               user: true,
               validator: (value) => {
-                if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value))
-                  {
-                    return true;
-                  }
-                else
-                  {
-                    return'Por Favor informe um email válido.';
-                  }
-             },
+                if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)) {
+                  return true;
+                }
+                else {
+                  return 'Por Favor informe um email válido.';
+                }
+              },
               trigger: '11',
             },
             {
@@ -202,7 +195,7 @@ class BOT extends Component {
             },
             {
               id: 'senha',
-              user: true,
+              user : true,
               trigger: 'dados',
             },
             {
@@ -225,7 +218,7 @@ class BOT extends Component {
               id: 'alterarOpcao',
               options: [
                 { value: 'sim', label: 'Sim', trigger: 'alterarDados' },
-                { value: 'nao', label: 'Não', trigger: 'cadastrar' },
+                { value: 'nao', label: 'Não', trigger: '12' },
               ],
             },
             {
@@ -244,48 +237,48 @@ class BOT extends Component {
             },
             {
               id: 'adulterarNome',
-              message : 'Perfeito, pode fazer a alteração de seu Nome.',
-              trigger : 'alterarNome'
+              message: 'Perfeito, pode fazer a alteração de seu Nome.',
+              trigger: 'alterarNome'
             },
             {
               id: 'adulterarCpf',
-              message : 'Perfeito, pode fazer a alteração de seu CPF.',
-              trigger : 'alterarCpf'
+              message: 'Perfeito, pode fazer a alteração de seu CPF.',
+              trigger: 'alterarCpf'
             },
             {
               id: 'adulterarEmail',
-              message : 'Perfeito, pode fazer a alteração de seu Email.',
-              trigger : 'alterarEmail'
+              message: 'Perfeito, pode fazer a alteração de seu Email.',
+              trigger: 'alterarEmail'
             },
             {
               id: 'adulterarSenha',
-              message : 'Perfeito, pode fazer a alteração de sua senha!',
-              trigger : 'alterarSenha'
+              message: 'Perfeito, pode fazer a alteração de sua senha!',
+              trigger: 'alterarSenha'
             },
             {
               id: 'alterarNome',
-              update : 'nome',
+              update: 'nome',
               trigger: 'confirmarAlterado',
             },
             {
               id: 'alterarCpf',
-              update : 'cpf',
+              update: 'cpf',
               trigger: 'confirmarAlterado',
             },
             {
               id: 'alterarEmail',
-              update : 'email',
+              update: 'email',
               trigger: 'confirmarAlterado',
             },
             {
               id: 'alterarSenha',
-              update : 'senha',
+              update: 'senha',
               trigger: 'confirmarAlterado',
             },
             {
               id: 'confirmarAlterado',
-              message : 'Gostaria de alterar mais alguma coisa?',
-              trigger : 'alterado'
+              message: 'Gostaria de alterar mais alguma coisa?',
+              trigger: 'alterado'
             },
             {
               id: 'alterado',
@@ -298,61 +291,23 @@ class BOT extends Component {
               id: 'cadastrar',
               component: <Cadastro />,
               asMessage: true,
-              trigger: 'pos-cadastrar',
+              trigger: '20',
             },
             {
               id: '12',
               message: 'Primeiramente, peço que me diga sobre qual desses assuntos você deseja conversar: ',
-              trigger: '13',
+              trigger: 'problema',
             },
             {
-              id: '13',
+              id: 'problema',
               options: [
-                { value: '1', label: 'Opção 1', trigger: '14' },
-                { value: '2', label: 'Opção 2', trigger: '14' },
-                { value: '3', label: 'Opção 3', trigger: '14' },
-                { value: '4', label: 'Opção 4', trigger: '14' },
-                { value: '5', label: 'Opção 5', trigger: '14' },
-                { value: '6', label: 'Opção 6', trigger: '14' },
+                { value: 'Consorcio', label: 'Consorcios', trigger: 'cadastrar' },
+                { value: 'Conta Corrente', label: 'Conta Corrente', trigger: 'cadastrar' },
+                { value: 'Empréstimo e Financiamento', label: 'Empréstimos e Financiamntos', trigger: 'cadastrar' },
+                { value: 'Investimento', label: 'Investimentos', trigger: 'cadastrar' },
+                { value: 'Seguros', label: 'Seguros', trigger: 'cadastrar' },
+                { value: 'Vida e Previdência', label: 'Vida e Previdência', trigger: 'cadastrar' },
               ],
-            },
-            {
-              id: '14',
-              message: 'Escolha uma das opções:',
-              trigger: '15'
-            },
-            {
-              id: '15',
-              options: [
-                { value: '7', label: 'Opção 1', trigger: '16' },
-                { value: '8', label: 'Opção 2', trigger: '16' },
-                { value: '9', label: 'Opção 3', trigger: '16' },
-                { value: '10', label: 'Opção 4', trigger: '16' },
-                { value: '11', label: 'Opção 5', trigger: '16' },
-                { value: '12', label: 'Opção 6', trigger: '16' },
-              ],
-            },
-            {
-              id: '16',
-              message: 'Escolha uma das opções:',
-              trigger: 'problemObject'
-            },
-            {
-              id: 'problemObject',
-              options: [
-                { value: '13', label: 'Opção 1', trigger: 'chamados' },
-                { value: '14', label: 'Opção 2', trigger: 'chamados' },
-                { value: '15', label: 'Opção 3', trigger: 'chamados' },
-                { value: '16', label: 'Opção 4', trigger: 'chamados' },
-                { value: '17', label: 'Opção 5', trigger: 'chamados' },
-                { value: '18', label: 'Opção 6', trigger: 'chamados' },
-              ],
-            },
-            {
-              id: 'chamados',
-              component: <Chamado />,
-              asMessage: true,
-              trigger: '20',
             },
             {
               id: 'pos-cadastrar',
@@ -362,12 +317,19 @@ class BOT extends Component {
             {
               id: '20',
               message: 'Captei seu problema, e já vou te enviar para o atendente!',
+              trigger: 'semi-final'
+            },
+            {
+              id: 'semi-final',
+              message: 'Estou lhe enviando para um atendente, que vai auxilia-lô em seu problema!',
               trigger: 'final'
             },
             {
               id: 'final',
-              message: 'Estou lhe enviando para um atendente, que vai auxilia-lô em seu problema!',
-              end: true,
+              component: <div>
+                            <Link to={'/HomePage'}>Redirect</Link>
+                        </div>,
+              end: true
             },
           ]}
           {...config}

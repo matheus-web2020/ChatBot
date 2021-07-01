@@ -34,7 +34,46 @@ export const Chamados = (problemObject) => {
                 .then(() => {
                     dispatch({
                         type: `${problemConstants.USER_PROBLEM}_SUCCESS`,
-                        payload: { user: problemObject }
+                        payload: { user: problemObject}
+                    })
+                })
+                .catch(error => {
+                    console.log(error);
+                    dispatch({
+                        type: `${problemConstants.USER_PROBLEM}_FAILURE`,
+                        payload: { error }
+                    });
+                })
+
+                .catch(error => {
+            console.log(error);
+        })
+    }
+}
+
+
+export const Chamados1 = (problemObject, agencia, conta) => {
+
+    return async (dispatch) => {
+
+        const db = firestore();
+
+        dispatch({ type: `${problemConstants.USER_PROBLEM}_REQUEST` });
+
+        auth()
+
+        const currentUser = auth().currentUser;
+            db.collection('Chamados')
+                .add({
+                    ...problemObject,
+                    ...agencia,
+                    ...conta,
+                    user_uid_1: currentUser.uid
+                })
+                .then(() => {
+                    dispatch({
+                        type: `${problemConstants.USER_PROBLEM}_SUCCESS`,
+                        payload: { user: problemObject, agencia, conta }
                     })
                 })
                 .catch(error => {

@@ -28,23 +28,25 @@ export const signUpCliente = (user) => {
             .then(data => {
                 console.log(data)
                 const currentUser = auth().currentUser;
-                const infos = `${user.nome} ${user.cpf}`
+                const infos = `${user.nome} ${user.cpf} ${user.problema}`
                 currentUser.updateProfile({
                     displayName: infos
                 })
                     .then(() => {
-                        db.collection('users')
-                            .add({
+                        db.collection('users').doc('tipoUsuario').collection('userComum').doc(data.user.uid)
+                            .set({
                                 cpf: user.cpf,
                                 uid: data.user.uid,
                                 nome: user.nome,
+                                problema: user.problema
                             })
                             .then(() => {
                                 const loggedInUser = {
                                     uid: data.user.uid,
                                     cpf: user.cpf,
                                     nome: user.nome,
-                                    email: user.email
+                                    problema: user.problema,
+                                    email: user.email,
                                 }
                                 localStorage.setItem('user', JSON.stringify(loggedInUser));
                                 // console.log('Usuario Logado');

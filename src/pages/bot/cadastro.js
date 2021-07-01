@@ -8,9 +8,9 @@ class Cadastro extends Component {
   constructor(props) {
     super(props);
     const { steps } = this.props;
-    const { email, senha, nome, cpf } = steps;
+    const { email, senha, nome, cpf, problema } = steps;
 
-    this.state = { email, senha, nome, cpf };
+    this.state = { email, senha, nome, cpf, problema };
   }
 
 
@@ -21,6 +21,7 @@ class Cadastro extends Component {
       senha: this.state.senha.value,
       nome: this.state.nome.value,
       cpf: this.state.cpf.value,
+      problema: this.state.problema.value
     };
 
     signUpCliente(user);
@@ -31,7 +32,6 @@ class Cadastro extends Component {
     );
   }
 };
-
 
 function mapStateToProps(state) {
   return {

@@ -14,6 +14,42 @@ const firestore = () => {
     )
 }
 
+export const logout = (uid) => {
+    return async dispatch => {
+        dispatch({ type: `${authConstants.USER_LOGOUT}_REQUEST` });
+        //Now lets logout user
+
+        const db = firestore();
+        db.collection('users').doc('tipoUsuario').collection('userComum')
+            .doc(uid)
+            .update({
+                isOnline: false
+            })
+            .then(() => {
+
+                auth()
+                    .signOut()
+                    .then(() => {
+                        //successfully
+                        localStorage.clear();
+                        dispatch({ type: `${authConstants.USER_LOGOUT}_SUCCESS` });
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        dispatch({ type: `${authConstants.USER_LOGOUT}_FAILURE`, payload: { error } })
+                    })
+
+            })
+            .catch(error => {
+                console.log(error);
+            })
+
+
+
+
+    }
+}
+
 
 export const signInCliente = (user) => {
 
